@@ -14,10 +14,10 @@ int main(int argc, char **argv)
 
     c = fgetc(f);
     f = fopen(argv[1], "r");
-    if(f== NULL)
-	    write(1, "pas assez d'arguments\n", 22);
-		exit(84);
-    while(c!= EOF){
+    if (f== NULL)
+        write(1, "pas assez d'arguments\n", 22);
+        exit(84);
+    while (c!= EOF){
         my_printf("%c", c);
     }
     fclose(f);
