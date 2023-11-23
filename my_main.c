@@ -12,12 +12,12 @@ int main(int argc, char **argv)
     FILE *f;
     char c;
 
-    c = fgetc(f);
     f = fopen(argv[1], "r");
-    if (f== NULL)
+    if (f == NULL){
         write(1, "pas assez d'arguments\n", 22);
         exit(84);
-    while (c!= EOF){
+    }
+    while ((c = fgetc(f)) != EOF){
         my_printf("%c", c);
     }
     fclose(f);
