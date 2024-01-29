@@ -105,7 +105,7 @@ static int my_strcspn(const char *str, const char *reject)
     return count;
 }
 
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     char matrix[ML][MC];
     FILE *file = fopen(argv[1], "r");
