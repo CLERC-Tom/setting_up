@@ -23,4 +23,5 @@ long my_put_nbr(long n)
     }
     rd = '0' + n;
     write(1, &rd, 1);
+    return 0;
 }

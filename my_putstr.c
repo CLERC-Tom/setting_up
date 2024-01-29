@@ -4,7 +4,6 @@
 ** File description:
 ** function that swap two int values
 */
-
 #include "my.h"
 
 long my_putstr(char const *str)
@@ -15,4 +14,5 @@ long my_putstr(char const *str)
         my_putchar(str[c]);
         c = c + 1;
     }
+    return 0;
 }

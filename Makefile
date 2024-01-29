@@ -6,28 +6,12 @@
 ## with also a clean rule
 ##
 
-SRC	=	my_printf.c			\
-		my_putchar.c			\
+SRC	=   my_putchar.c			\
 		my_put_nbr.c			\
 		my_putstr.c			\
 		my_strlen.c			\
-		my_print_octal.c		\
-		my_print_hexa.c			\
-		my_print_hexa_capped.c		\
-		my_print_float.c		\
-		big_science_e.c			\
-		science_e.c			\
-		pointer.c			\
-		n.c				\
-		mini_printf.c			\
-		cpt_nbr.c			\
-		cpt_hex.c			\
-		cpt_oct.c			\
-		min_g.c				\
-		maj_g.c				\
-		my_ls.c 	\
-		ls_a.c 				\
 		my_strcmp.c 	\
+		my_printf.c			\
 		my_main.c 		\
 
 
@@ -40,6 +24,12 @@ all:	$(NAME)
 $(NAME):	$(OBJ)
 	gcc -o $(NAME)	$(OBJ) -g3
 
+%.o: %.c
+	gcc -g -c $< -o $@
+
+test:
+	echo $(OBJ)
+
 clean:
 	rm -f $(OBJ)
 
@@ -48,3 +38,6 @@ fclean:	clean
 	rm -f libmy.a
 
 re:	fclean all
+
+
+.PHONY: test

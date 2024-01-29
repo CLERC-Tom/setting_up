@@ -4,6 +4,7 @@
 ** File description:
 ** len of an int
 */
+#include "my.h"
 
 int my_strcmp(char *s1, char *s2)
 {

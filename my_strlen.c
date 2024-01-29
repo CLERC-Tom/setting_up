@@ -4,7 +4,6 @@
 ** File description:
 ** function that swap two int values
 */
-
 #include "my.h"
 
 long my_strlen(char const *str)

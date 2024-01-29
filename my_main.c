@@ -1,25 +1,25 @@
 /*
 ** EPITECH PROJECT, 2023
-** Setting up
+** my_put_nbr
 ** File description:
-** info
+** display an int nulber with write
 */
+#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "my.h"
 
-int main(int argc, char **argv)
+int main(int argc, char *argv[])
 {
-    FILE *f;
-    char c;
+    FILE* fichier = NULL;
+    char chaine[TAILLE_MAX] = "";
 
-    f = fopen(argv[1], "r");
-    if (f == NULL){
-        write(1, "pas assez d'arguments\n", 22);
-        exit(84);
+    fichier = fopen("test.txt", "r");
+    if (fichier != NULL){
+        while (fgets(chaine, TAILLE_MAX, fichier) != NULL){
+            printf("%s", chaine);
+        }
+        fclose(fichier);
     }
-    while ((c = fgetc(f)) != EOF){
-        my_printf("%c", c);
-    }
-    fclose(f);
     return 0;
 }
