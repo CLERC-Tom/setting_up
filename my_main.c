@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-** my_put_nbr
+** setting up
 ** File description:
-** display an int number with write
+** algo de base
 */
 #include <stdio.h>
 #include <string.h>
