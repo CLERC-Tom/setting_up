@@ -7,9 +7,16 @@
 #include <time.h>
 #include <unistd.h>
 
+typedef struct {
+    int mx;
+    int mxs;
+    int msc;
+} BigsqParams;
+
 #ifndef MY_H
     #define MY_H
-        #define TAILLE_MAX 1000
+        #define ML 100
+        #define MC 100
 
 void my_putchar(char c);
 int my_strcmp(char *s1, char *s2);
