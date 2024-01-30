@@ -13,6 +13,8 @@ typedef struct {
     int msc;
 } BigsqParams;
 
+
+
 void my_putchar(char c);
 int my_strcmp(char *s1, char *s2);
 long my_put_nbr(long n);

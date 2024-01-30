@@ -40,10 +40,6 @@ int count_lines(const char *filename)
     int lineCount = 0;
     ssize_t bytesRead;
 
-    if (fileDescriptor == -1) {
-        perror("Erreur lors de l'ouverture du fichier");
-        return -1;
-    }
     while ((bytesRead = read(fileDescriptor, buffer, 1)) > 0) {
         if (buffer[0] == '\n') {
             lineCount++;
@@ -62,38 +58,33 @@ static int init(char **argv, int *pRows, size_t *pMaxLineLength)
 {
     int fileDescriptor = open(argv[1], O_RDONLY);
     int rows = count_lines(argv[1]);
-    size_t maxLineLength = 0;
+    size_t mxll = 0;
     size_t currentLength;
     char buffer[256];
-    int *pRows;
-    int *pMaxLineLength;
+    char *newlinePos;
 
-    if (fileDescriptor == -1) {
-        perror("Erreur lors de l'ouverture du fichier");
-        return 84;
-    }
     while (read(fileDescriptor, buffer, sizeof(buffer)) > 0) {
-        char *newlinePos = strchr(buffer, '\n');
+        char *newlinePos = my_strchr(buffer, '\n');
         if (newlinePos != NULL) {
             currentLength = newlinePos - buffer;
-            if (currentLength > maxLineLength) {
-                maxLineLength = currentLength;
+            if (currentLength > mxll) {
+                mxll = currentLength;
             }
         }
     }
     close(fileDescriptor);
     *pRows = rows;
-    *pMaxLineLength = maxLineLength;
+    *pMaxLineLength = mxll;
     return 0;
 }
 
-int decompose(int fileDescriptor, char **matrix, int rows, size_t maxLineLength)
+int decompose(int fileDescriptor, char **matrix, int rows, size_t mxll)
 {
     for (int i = 0; i < rows; i++) {
-        matrix[i] = (char *)malloc((maxLineLength + 1) * sizeof(char));
+        matrix[i] = (char *)malloc((mxll + 1) * sizeof(char));
     }
     for (int i = 0; i < rows; i++) {
-        if (read(fileDescriptor, matrix[i], maxLineLength + 1) == -1) {
+        if (read(fileDescriptor, matrix[i], mxll + 1) == -1) {
             perror("Erreur lors de la lecture du fichier");
             return 84;
         }
@@ -113,16 +104,12 @@ void delete_first(char **matrix, int rows)
 int main(int argc, char *argv[])
 {
     int rows;
-    size_t maxLineLength;
+    size_t mxll;
     int fileDescriptor = open(argv[1], O_RDONLY);
-    int initResult = init(argv, &rows, &maxLineLength);
+    int initResult = init(argv, &rows, &mxll);
     char **matrix = (char **)malloc(rows * sizeof(char *));
-    int decomposeResult = decompose(fileDescriptor, matrix, rows, maxLineLength);
+    int decomposeResult = decompose(fileDescriptor, matrix, rows, mxll);
 
-    if (fileDescriptor == -1) {
-        perror("Erreur lors de l'ouverture du fichier");
-        return 84;
-    }
     delete_first(matrix, rows);
     if (decomposeResult != 0) {
         close(fileDescriptor);
@@ -133,7 +120,7 @@ int main(int argc, char *argv[])
         return 84;
     }
     close(fileDescriptor);
-    genesq(matrix, rows, maxLineLength);
+    genesq(matrix, rows, mxll);
     free(matrix);
     return 0;
 }
