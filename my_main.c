@@ -12,11 +12,22 @@
 #include <sys/stat.h>
 #include "my.h"
 
+static char *my_strchr(const char *str, int c)
+{
+    while (*str != '\0') {
+        if (*str == c) {
+            return (char *)str;
+        }
+        str++;
+    }
+    return NULL;
+}
+
 size_t my_strcspn(const char *str, const char *chars)
 {
     size_t len = 0;
 
-    while (str[len] != '\0' && strchr(chars, str[len]) == NULL) {
+    while (str[len] != '\0' && my_strchr(chars, str[len]) == NULL) {
         len++;
     }
     return len;
