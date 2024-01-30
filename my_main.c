@@ -12,16 +12,6 @@
 #include <sys/stat.h>
 #include "my.h"
 
-size_t my_strcspn(const char *str, const char *chars)
-{
-    size_t len = 0;
-
-    while (str[len] != '\0' && strchr(chars, str[len]) == NULL) {
-        len++;
-    }
-    return len;
-}
-
 int count_lines(const char *filename)
 {
     struct stat fileStat;

@@ -86,12 +86,3 @@ void genesq(char **file, int rows, int cols)
         free(dp[i]);
     free(dp);
 }
-
-static int count_verif(const char *p, const char *r)
-{
-    if (*p == *r) {
-        return 1;
-    } else {
-        return 0;
-    }
-}
