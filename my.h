@@ -16,6 +16,7 @@ typedef struct {
 void my_putchar(char c);
 int my_strcmp(char *s1, char *s2);
 long my_put_nbr(long n);
+char *my_strcpy(char *dest, char const *src);
 long my_putstr(char const *str);
 long my_strlen(char const *str);
 void ls_a(void);

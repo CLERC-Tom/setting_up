@@ -12,6 +12,16 @@
 #include <sys/stat.h>
 #include "my.h"
 
+size_t my_strcspn(const char *str, const char *chars)
+{
+    size_t len = 0;
+
+    while (str[len] != '\0' && strchr(chars, str[len]) == NULL) {
+        len++;
+    }
+    return len;
+}
+
 int count_lines(const char *filename)
 {
     struct stat fileStat;
@@ -74,7 +84,7 @@ int decompose(FILE *file, char **matrix, int rows, size_t maxLineLength)
             perror("Erreur lors de la lecture du fichier");
             return 84;
         }
-        matrix[i][strcspn(matrix[i], "\n")] = '\0';
+        matrix[i][my_strcspn(matrix[i], "\n")] = '\0';
     }
     return 0;
 }
@@ -82,7 +92,7 @@ int decompose(FILE *file, char **matrix, int rows, size_t maxLineLength)
 void delete_first(char **matrix, int rows)
 {
     for (int i = 0; i < rows - 1; i++) {
-        strcpy(matrix[i], matrix[i + 1]);
+        my_strcpy(matrix[i], matrix[i + 1]);
     }
     matrix[rows - 1][0] = '\0';
 }
