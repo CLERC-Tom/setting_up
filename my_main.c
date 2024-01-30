@@ -12,74 +12,102 @@
 #include <sys/stat.h>
 #include "my.h"
 
-static int my_strcspn(const char *str, const char *reject)
+size_t my_strcspn(const char *str, const char *chars)
 {
-    int count = 0;
+    size_t len = 0;
 
-    for (const char *p = str; *p != '\0'; p++) {
-        for (const char *r = reject; *r != '\0'; r++) {
-            if (count_verif(p, r)) {
-                return count;
-            }
-        }
-        count++;
+    while (str[len] != '\0' && strchr(chars, str[len]) == NULL) {
+        len++;
     }
-    return count;
+    return len;
+}
+
+int count_lines(const char *filename)
+{
+    struct stat fileStat;
+    int lineCount = 0;
+    int c;
+    FILE *file = fopen(filename, "r");
+
+    if (stat(filename, &fileStat) == -1) {
+        perror("Erreur lors de l'appel à stat()");
+        return -1;
+    }
+    if (file == NULL) {
+        perror("Erreur lors de l'ouverture du fichier");
+        return -1;
+    }
+    while ((c = fgetc(file)) != EOF) {
+        if (c == '\n') {
+            lineCount++;
+        }
+    }
+    fclose(file);
+    return lineCount;
+}
+
+static int init(char **argv, int *pRows, size_t *pMaxLineLength)
+{
+    int rows = count_lines(argv[1]);
+    size_t maxLineLength = 0;
+    size_t currentLength;
+    char buffer[256];
+    FILE *file = fopen(argv[1], "r");
+
+    if (file == NULL) {
+        perror("Erreur lors de l'ouverture du fichier");
+        return 84;
+    }
+    while (fgets(buffer, sizeof(buffer), file) != NULL) {
+        currentLength = my_strlen(buffer);
+        if (currentLength > maxLineLength) {
+            maxLineLength = currentLength;
+        }
+    }
+    fclose(file);
+    *pRows = rows;
+    *pMaxLineLength = maxLineLength;
+    return 0;
+}
+
+int decompose(FILE *file, char **matrix, int rows, size_t maxLineLength)
+{
+    for (int i = 0; i < rows; i++) {
+        matrix[i] = (char *)malloc((maxLineLength + 1) * sizeof(char));
+    }
+    if (file == NULL) {
+        perror("Erreur lors de l'ouverture du fichier");
+        return 84;
+    }
+    for (int i = 0; i < rows; i++) {
+        if (fgets(matrix[i], maxLineLength + 1, file) == NULL) {
+            perror("Erreur lors de la lecture du fichier");
+            return 84;
+        }
+        matrix[i][strcspn(matrix[i], "\n")] = '\0';
+    }
     return 0;
 }
 
 int main(int argc, char *argv[])
 {
-    char **matrix = NULL;
-    int file = open(argv[1], O_RDONLY);
-    int rows = 0;
-    int cols = 0;
-    char buffer[1024];
-    char *line = NULL;
-    size_t len = 0;
-    ssize_t bytesRead;
-    if (argc != 2) {
-        printf("Usage: %s <filename>\n", argv[0]);
-        return 0;
-    }
-    while ((bytesRead = read(file, buffer, sizeof(buffer) - 1)) > 0) {
-        buffer[bytesRead] = '\0';
-        char *start = buffer;
-        char *end;
-        while ((end = strchr(start, '\n')) != NULL) {
-            *end = '\0';
-            line = realloc(line, len + end - start + 1);
-            strncpy(line + len, start, end - start + 1);
-            len += end - start;
-            line[len] = '\0';
-            matrix = realloc(matrix, sizeof(char *) * (rows + 1));
-            matrix[rows] = malloc(sizeof(char) * (len + 1));
-            strcpy(matrix[rows], line);
-            cols = strlen(matrix[rows]);
-            rows++;
-            start = end + 1;
-            len = 0;
-        }
-        if (*start) {
-            line = realloc(line, len + bytesRead - (start - buffer) + 1);
-            strncpy(line + len, start, bytesRead - (start - buffer));
-            len += bytesRead - (start - buffer);
-        }
-    }
-    if (len > 0) {
-        matrix = realloc(matrix, sizeof(char *) * (rows + 1));
-        matrix[rows] = malloc(sizeof(char) * (len + 1));
-        strcpy(matrix[rows], line);
-        cols = strlen(matrix[rows]);
-        rows++;
-    }
-    close(file);
-    genesq(matrix, rows, cols);
-    for (int i = 0; i < rows; i++) {
-        free(matrix[i]);
-    }
-    free(matrix);
-    free(line);
+    int rows;
+    size_t maxLineLength;
+    FILE *file = fopen(argv[1], "r");
+    int initResult = init(argv, &rows, &maxLineLength);
+    char **matrix = (char **)malloc(rows * sizeof(char *));
+    int decomposeResult = decompose(file, matrix, rows, maxLineLength);
 
+    if (decomposeResult != 0) {
+        fclose(file);
+        for (int i = 0; i < rows; i++) {
+            free(matrix[i]);
+        }
+        free(matrix);
+        return 84;
+    }
+    fclose(file);
+    genesq(matrix, rows, maxLineLength);
+    free(matrix);
     return 0;
 }

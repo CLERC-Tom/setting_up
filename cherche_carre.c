@@ -68,11 +68,11 @@ void matrice(int i, int j, BigsqParams *p, int **dp)
 
 void genesq(char **file, int rows, int cols)
 {
-    int **dp = malloc(sizeof(int*) * rows);
-    for (int i = 0; i < rows; i++)
-        dp[i] = malloc(sizeof(int) * cols);
+    int **dp = malloc(sizeof(int *) * rows);
     BigsqParams p = {0, 0, 0};
 
+    for (int i = 0; i < rows; i++)
+        dp[i] = malloc(sizeof(int) * cols);
     prevoit(dp, file, rows, cols);
     for (int i = 1; i < rows; ++i){
         for (int j = 1; j < cols; ++j){
