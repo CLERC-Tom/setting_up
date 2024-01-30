@@ -12,6 +12,7 @@ SRC	=   my_putchar.c			\
 		my_strlen.c			\
 		my_strcmp.c 	\
 		my_printf.c			\
+		cherche_carre.c \
 		my_main.c 		\
 
 
@@ -38,6 +39,3 @@ fclean:	clean
 	rm -f libmy.a
 
 re:	fclean all
-
-
-.PHONY: test
