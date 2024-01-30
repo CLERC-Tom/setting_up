@@ -89,6 +89,14 @@ int decompose(FILE *file, char **matrix, int rows, size_t maxLineLength)
     return 0;
 }
 
+void delete_first(char **matrix, int rows)
+{
+    for (int i = 0; i < rows - 1; i++) {
+        strcpy(matrix[i], matrix[i + 1]);
+    }
+    matrix[rows - 1][0] = '\0';
+}
+
 int main(int argc, char *argv[])
 {
     int rows;
@@ -98,6 +106,7 @@ int main(int argc, char *argv[])
     char **matrix = (char **)malloc(rows * sizeof(char *));
     int decomposeResult = decompose(file, matrix, rows, maxLineLength);
 
+    delete_first(matrix, rows);
     if (decomposeResult != 0) {
         fclose(file);
         for (int i = 0; i < rows; i++) {
