@@ -1,7 +1,7 @@
 /*
 ** EPITECH PROJECT, 2023
 ** epitech_pool_day09
-** File description:
+** File 
 ** file that contains all prototypes
 */
 #ifndef MY_H
