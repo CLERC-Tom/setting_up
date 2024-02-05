@@ -10,7 +10,7 @@ int str_len(const char *str)
 {
     int count = 0;
 
-    while (str[count] != '\0' && str[count] != '\n') {
+    while (str[count] != '\0') {
         count++;
     }
     return count;
