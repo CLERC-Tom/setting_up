@@ -88,6 +88,52 @@ static int skip(param *struct1)
     }
 }
 
+static int my_atoi(const char *str)
+{
+    int result = 0;
+    int sign = 1;
+
+    while (*str == ' ') {
+        str++;
+    }
+    if (*str == '-' || *str == '+') {
+        sign = (*str == '-') ? -1 : 1;
+        str++;
+    }
+    while (*str >= '0' && *str <= '9') {
+        result = result * 10 + (*str - '0');
+        str++;
+    }
+    return sign * result;
+}
+
+static int line_number(char *str, int n)
+{
+    for (int h = 0; str[h] != '\n'; h++) {
+        if (str[h] < '0' || str[h] > '9')
+            return 84;
+    }
+    if (my_atoi(str) != n - 1)
+        return 84;
+    return 0;
+}
+
+static int error_handler(char *str)
+{
+    int n = 0;
+
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (str[i] == '\n') {
+            n++;
+        }
+        if (n >= 1 && str[i] != '.' && str[i] != 'o'
+        && str[i] != '\n') {
+            return 84;
+        }
+    }
+    return line_number(str, n);
+}
+
 int main(int argc, char *argv[])
 {
     param *struct1 = NULL;
@@ -95,7 +141,7 @@ int main(int argc, char *argv[])
     int rows;
     char *map;
     int initResult = 0;
-    
+
     if (argc != 2) {
         return 84;
     }
@@ -103,10 +149,8 @@ int main(int argc, char *argv[])
     initResult = init(argv, struct1);
     skip(struct1);
     struct1->max_carre = 0;
+    error_handler(struct1->buffer);
     struct1->tab = str_to_wordarray(struct1->buffer);
-    if (initResult == 84) {
-        return 84;
-    }
     parcours_map(struct1);
     remplace_x(struct1, struct1->xmax, struct1->ymax);
     print_map(struct1->tab);
