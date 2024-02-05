@@ -76,6 +76,18 @@ int decompose(int fileDescriptor, char **matrix, int rows, size_t mxll)
     return 0;
 }
 
+static int skip(param *struct1)
+{
+    char *saut = my_strchr(struct1->buffer, '\n');
+
+    if (saut != NULL) {
+        struct1->buffer = saut + 1;
+        return 0;
+    } else {
+        return -1;
+    }
+}
+
 int main(int argc, char *argv[])
 {
     param *struct1 = malloc(sizeof(param));
@@ -84,8 +96,12 @@ int main(int argc, char *argv[])
     char *map;
     int initResult = init(argv, struct1);
 
+    skip(struct1);
     struct1->max_carre = 0;
     struct1->tab = str_to_wordarray(struct1->buffer);
+    if (argc != 2) {
+        return 84;
+    }
     if (initResult == 84) {
         return 84;
     }

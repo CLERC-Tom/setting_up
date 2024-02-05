@@ -36,7 +36,7 @@ void parcours_diagonale(param *map, int i)
 
 int parcours_map(param *map)
 {
-    int i = 0;
+    int i = 1;
 
     while (map->tab[i] != NULL) {
         parcours_diagonale(map, i);
