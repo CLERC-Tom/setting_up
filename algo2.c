@@ -67,15 +67,16 @@ char **str_to_wordarray(char *str)
     return array;
 }
 
-int  bigger_square(param *map, int i, int j, int size)
+int bigger_square(param *map, int i, int j, int size)
 {
     if (map->max_carre < size) {
         map->max_carre = size;
-        map->xmax = i;
-        map->ymax = j;
+        map->xmax = i + 1;
+        map->ymax = j + 1;
     }
     return 0;
 }
+
 
 int algo_diago(param *map, int x, int y)
 {
@@ -99,7 +100,6 @@ int algo_diago(param *map, int x, int y)
             stop = true;
         }
     }
-    max++;
     return max;
 }
 
