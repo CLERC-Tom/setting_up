@@ -29,7 +29,7 @@ int count_char(char *str);
 int my_strcmp(char *s1, char *s2);
 int my_put_nbr(int n);
 char *my_strcpy(char *dest, char const *src);
-long my_putstr(char const *str);
+int my_putstr(char const *str);
 int str_len(const char *str);
 void ls_a(void);
 int my_printf(const char *format, ...);
