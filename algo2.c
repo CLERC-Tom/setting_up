@@ -45,34 +45,30 @@ static int count_char(char *str)
 
 char **str_to_wordarray(char *str)
 {
-    int line = count_lines2(str);
+    int lines = count_lines2(str);
     int count_c = count_char(str);
-    int i = 0;
     int j = 0;
+    int i = 0;
     int count = 0;
-    char **array = malloc(sizeof(char *) * (line + 1));
+    char **array = malloc(sizeof(char *) * (lines + 1));
 
-    while (str[count] != '\n') {
-        count++;
-    }
-    count++;
     while (str[count] != '\0') {
         array[j] = malloc(sizeof(char) * (count_c + 1));
-        while (str[count] != '\n') {
+        while (str[count] != '\0' && str[count] != '\n') {
             array[j][i] = str[count];
             i++;
-            count++;
+            count ++;
         }
         array[j][i] = '\0';
         j++;
         count++;
         i = 0;
     }
-    array[line] = NULL;
+    array[lines] = NULL;
     return array;
 }
 
-static int bigger_square(param *map, int i, int j, int size)
+int bigger_square(param *map, int i, int j, int size)
 {
     if (map->max_carre < size) {
         map->max_carre = size;
@@ -82,51 +78,46 @@ static int bigger_square(param *map, int i, int j, int size)
     return 0;
 }
 
+static int check_point(param *map, int x, int y, int max)
+{
+    int k = max + 1;
+
+    while (k > 0) {
+        if (map->tab[x + k][y + max + 1] == '.'
+        && map->tab[x + max + 1][y + k] == '.') {
+            k--;
+        } else {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+static int alentour(param *map, int x, int y, int max)
+{
+    int k = max + 1;
+
+    if (map->tab[x + k] != NULL
+    && map->tab[x + k][y + k] == '.') {
+        return check_point(map, x, y, max);
+    }
+    return 0;
+}
+
 int algo_diago(param *map, int x, int y)
 {
     int max = 0;
-    int k;
     bool stop = false;
 
-    while (stop != true && map->tab[x + max] != NULL &&
-    map->tab[x + max][y + max] != '\0') {
-        k = max + 1;
-        if (map->tab[x + k] != NULL && map->tab[x + k][y + k] == '.') {
-            while (k > 0) {
-                if (map->tab[x + k][y + max + 1] == '.' &&
-                    map->tab[x + max + 1][y + k] == '.') {
-                    k--;
-                } else {
-                    k = 0;
-                    stop = true;
-                }
-            }
+    while (!stop && map->tab[x + max] != NULL
+    && map->tab[x + max][y + max] != '\0') {
+        if (alentour(map, x, y, max)) {
             max++;
         } else {
             stop = true;
         }
     }
     return max;
-}
-
-int parcours_map(param *map)
-{
-    int i = 0;
-    int j = 0;
-    int tmp = 0;
-
-    while (map->tab[i] != NULL) {
-        while (map->tab[i][j] != '\0') {
-            if (map->tab[i][j] == '.') {
-                tmp = algo_diago(map, i, j);
-                bigger_square(map, i, j, tmp);
-            }
-            j++;
-        }
-        i++;
-        j = 0;
-    }
-    return 0;
 }
 
 void remplace_x(param *map, int x, int y)

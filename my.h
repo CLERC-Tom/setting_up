@@ -6,6 +6,7 @@
 */
 #ifndef MY_H
     #define MY_H
+        #include <stdbool.h>
 
 typedef struct struct1 {
     int lines;
@@ -16,6 +17,9 @@ typedef struct struct1 {
     int xmax;
     int ymax;
     char *buffer;
+    int max;
+    int k;
+    bool stop;
 } param;
 
 void my_putchar(char c);
@@ -34,7 +38,7 @@ int str_len(const char *str);
 void ls_a(void);
 int my_printf(const char *format, ...);
 static int count_verif(const char *p, const char *r);
-static int bigger_square(param *map, int i, int j, int size);
+int bigger_square(param *map, int i, int j, int size);
 int algo_diago(param *map, int x, int y);
 int parcours_map(param *map);
 void remplace_x(param *map, int x, int y);
