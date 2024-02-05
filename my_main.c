@@ -90,18 +90,20 @@ static int skip(param *struct1)
 
 int main(int argc, char *argv[])
 {
-    param *struct1 = malloc(sizeof(param));
+    param *struct1 = NULL;
     size_t mxll;
     int rows;
     char *map;
-    int initResult = init(argv, struct1);
-
-    skip(struct1);
-    struct1->max_carre = 0;
-    struct1->tab = str_to_wordarray(struct1->buffer);
+    int initResult = 0;
+    
     if (argc != 2) {
         return 84;
     }
+    struct1 = malloc(sizeof(param));
+    initResult = init(argv, struct1);
+    skip(struct1);
+    struct1->max_carre = 0;
+    struct1->tab = str_to_wordarray(struct1->buffer);
     if (initResult == 84) {
         return 84;
     }
