@@ -1,30 +1,37 @@
+/*
+** EPITECH PROJECT, 2023
+** cpt_nbr
+** File description:
+** len of an int
+*/
+#include "my.h"
+#include <fcntl.h>
+#include <math.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
-#include <fcntl.h>
-#include <unistd.h>
 #include <string.h>
-#include <stdbool.h>
 #include <sys/stat.h>
-#include "my.h"
+#include <unistd.h>
 
-int count_lines2(char *str)
+static int count_lines2(char *str)
 {
     int count = 0;
-    for(int i = 0; str != NULL && str[i] != '\0'; i++)
-    {
+
+    for (int i = 0; str != NULL && str[i] != '\0'; i++) {
         if (str[i] == '\n')
             count++;
     }
     return count;
 }
 
-int count_char(char *str)
+static int count_char(char *str)
 {
     int i = 0;
     int j = 0;
     int count = 0;
-    while(str[i] != '\0') {
+
+    while (str[i] != '\0') {
         if (str[i] == '\n') {
             count = j > count ? j : count;
             j = 0;
@@ -43,17 +50,15 @@ char **str_to_wordarray(char *str)
     int i = 0;
     int j = 0;
     int count = 0;
-
-    char **array = malloc(sizeof(char *) * (line + 1) );
+    char **array = malloc(sizeof(char *) * (line + 1));
 
     while (str[count] != '\n') {
         count++;
     }
     count++;
-
     while (str[count] != '\0') {
         array[j] = malloc(sizeof(char) * (count_c + 1));
-        while(str[count] != '\n') {
+        while (str[count] != '\n') {
             array[j][i] = str[count];
             i++;
             count++;
@@ -67,7 +72,7 @@ char **str_to_wordarray(char *str)
     return array;
 }
 
-int bigger_square(param *map, int i, int j, int size)
+static int bigger_square(param *map, int i, int j, int size)
 {
     if (map->max_carre < size) {
         map->max_carre = size;
@@ -77,18 +82,19 @@ int bigger_square(param *map, int i, int j, int size)
     return 0;
 }
 
-
 int algo_diago(param *map, int x, int y)
 {
     int max = 0;
     int k;
     bool stop = false;
 
-    while (stop != true && map->tab[x + max] != NULL && map->tab[x + max][y + max] != '\0') {
+    while (stop != true && map->tab[x + max] != NULL &&
+    map->tab[x + max][y + max] != '\0') {
         k = max + 1;
         if (map->tab[x + k] != NULL && map->tab[x + k][y + k] == '.') {
             while (k > 0) {
-                if (map->tab[x + k][y + max + 1] == '.' && map->tab[x + max + 1][y + k] == '.') {
+                if (map->tab[x + k][y + max + 1] == '.' &&
+                    map->tab[x + max + 1][y + k] == '.') {
                     k--;
                 } else {
                     k = 0;
@@ -120,14 +126,13 @@ int parcours_map(param *map)
         i++;
         j = 0;
     }
-
     return 0;
 }
 
 void remplace_x(param *map, int x, int y)
 {
-    for (int i = x; i < x + map->max_carre; i++){
-        for (int j = y; j < y + map->max_carre; j++){
+    for (int i = x; i < x + map->max_carre; i++) {
+        for (int j = y; j < y + map->max_carre; j++) {
             map->tab[i][j] = 'x';
         }
     }

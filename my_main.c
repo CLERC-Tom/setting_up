@@ -1,10 +1,16 @@
+/*
+** EPITECH PROJECT, 2023
+** cpt_nbr
+** File description:
+** len of an int
+*/
+#include "my.h"
+#include <fcntl.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
-#include <fcntl.h>
-#include <stdbool.h> 
 #include <unistd.h>
-#include "my.h"
 
 static char *my_strchr(const char *str, int c)
 {
@@ -31,6 +37,7 @@ int count_lines(char *fileDescriptor)
 {
     int count = 1;
     int i = 0;
+
     while (fileDescriptor[i] != '\0') {
         if (fileDescriptor[i] == '\n') {
             count++;
@@ -42,22 +49,21 @@ int count_lines(char *fileDescriptor)
 
 int init(char **argv, param *struct1)
 {
+    int fd = open(argv[1], O_RDONLY);
     struct stat st;
+
     stat(argv[1], &st);
     struct1->buffer = malloc(st.st_size);
-    int fd = open(argv[1], O_RDONLY);
     if (fd < 0) {
         return 84;
     }
     fd = read(fd, struct1->buffer, st.st_size);
-    if (fd < 0)
-    {
+    if (fd < 0) {
         return 84;
     }
     close(fd);
     return 0;
 }
-
 
 int decompose(int fileDescriptor, char **matrix, int rows, size_t mxll)
 {
@@ -70,21 +76,19 @@ int decompose(int fileDescriptor, char **matrix, int rows, size_t mxll)
     return 0;
 }
 
-int main(int argc, char* argv[]) 
+int main(int argc, char *argv[])
 {
     param *struct1 = malloc(sizeof(param));
     size_t mxll;
     int rows;
-    char* map;
-    struct1->max_carre = 0;
-
+    char *map;
     int initResult = init(argv, struct1);
-    if (initResult == 84)
-    {
+
+    struct1->max_carre = 0;
+    struct1->tab = str_to_wordarray(struct1->buffer);
+    if (initResult == 84) {
         return 84;
     }
-
-    struct1->tab = str_to_wordarray(struct1->buffer);
     parcours_map(struct1);
     remplace_x(struct1, struct1->xmax, struct1->ymax);
     print_map(struct1->tab);
