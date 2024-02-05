@@ -11,7 +11,6 @@
 #include <string.h>
 #include <sys/stat.h>
 #include "my.h"
-
 #include <stdio.h>
 
 char *my_strcpy(char *dest, const char *src)
