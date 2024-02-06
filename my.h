@@ -42,5 +42,8 @@ int bigger_square(param *map, int i, int j, int size);
 int algo_diago(param *map, int x, int y);
 int parcours_map(param *map);
 void remplace_x(param *map, int x, int y);
+int count_characters_per_line(param *struct1, int *lil, int num_l);
+int count_lines(char *fileDescriptor);
+int verif_line(param *struct1);
 
 #endif /* MY_H */
