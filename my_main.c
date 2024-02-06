@@ -147,9 +147,9 @@ int main(int argc, char *argv[])
     }
     struct1 = malloc(sizeof(param));
     initResult = init(argv, struct1);
+    error_handler(struct1->buffer);
     skip(struct1);
     struct1->max_carre = 0;
-    error_handler(struct1->buffer);
     struct1->tab = str_to_wordarray(struct1->buffer);
     parcours_map(struct1);
     remplace_x(struct1, struct1->xmax, struct1->ymax);
