@@ -140,14 +140,15 @@ int main(int argc, char *argv[])
     size_t mxll;
     int rows;
     char *map;
-    int initResult = 0;
 
     if (argc != 2) {
         return 84;
     }
     struct1 = malloc(sizeof(param));
-    initResult = init(argv, struct1);
-    error_handler(struct1->buffer);
+    if (init(argv, struct1) == 84 || error(struct1->buffer))
+        return 84;
+    if (init(argv, struct1) == 0 || error(struct1->buffer))
+        return 84;
     skip(struct1);
     struct1->max_carre = 0;
     struct1->tab = str_to_wordarray(struct1->buffer);
@@ -156,3 +157,4 @@ int main(int argc, char *argv[])
     print_map(struct1->tab);
     return 0;
 }
+
