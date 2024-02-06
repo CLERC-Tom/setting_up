@@ -15,6 +15,7 @@ SRC	=   my_putchar.c			\
 		algo2.c \
 		parcours.c  \
 		my_strcpy.c \
+		verif.c  \
 		my_main.c 		\
 
 
