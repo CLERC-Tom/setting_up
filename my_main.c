@@ -147,8 +147,6 @@ int main(int argc, char *argv[])
     struct1 = malloc(sizeof(param));
     if (init(argv, struct1) == 84 || error(struct1->buffer))
         return 84;
-    if (init(argv, struct1) == 0 || error(struct1->buffer))
-        return 84;
     skip(struct1);
     struct1->max_carre = 0;
     struct1->tab = str_to_wordarray(struct1->buffer);
