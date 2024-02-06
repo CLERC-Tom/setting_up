@@ -65,17 +65,6 @@ int init(char **argv, param *struct1)
     return 0;
 }
 
-int decompose(int fileDescriptor, char **matrix, int rows, size_t mxll)
-{
-    for (int i = 0; i < rows; i++) {
-        matrix[i] = (char *)malloc((mxll + 1) * sizeof(char));
-    }
-    for (int i = 0; i < rows; i++) {
-        matrix[i][my_strcspn(matrix[i], "\n")] = '\0';
-    }
-    return 0;
-}
-
 static int skip(param *struct1)
 {
     char *saut = my_strchr(struct1->buffer, '\n');
@@ -118,7 +107,7 @@ static int line_number(char *str, int n)
     return 0;
 }
 
-static int error_handler(char *str)
+static int error(char *str)
 {
     int n = 0;
 
@@ -148,6 +137,8 @@ int main(int argc, char *argv[])
     if (init(argv, struct1) == 84 || error(struct1->buffer))
         return 84;
     skip(struct1);
+    if (verif_line(struct1) == 84)
+        return 84;
     struct1->max_carre = 0;
     struct1->tab = str_to_wordarray(struct1->buffer);
     parcours_map(struct1);
@@ -155,4 +146,3 @@ int main(int argc, char *argv[])
     print_map(struct1->tab);
     return 0;
 }
-
