@@ -68,12 +68,12 @@ char **str_to_wordarray(char *str)
     return array;
 }
 
-int bigger_square(param *map, int i, int j, int size)
+int bigger_square(param *map, int y, int x, int size)
 {
     if (map->max_carre < size) {
         map->max_carre = size;
-        map->xmax = i;
-        map->ymax = j;
+        map->xmax = x;
+        map->ymax = y;
     }
     return 0;
 }
@@ -81,8 +81,8 @@ int bigger_square(param *map, int i, int j, int size)
 int check_left(param *map, int x, int y, int size)
 {
     for (int i = 0; i < size; i++) {
-        x --;
-        if (map->tab[y][x] == 'o') {
+        x--;
+        if (map->tab[y][x] != '.') {
             return 1;
         }
     }
@@ -92,8 +92,8 @@ int check_left(param *map, int x, int y, int size)
 int check_top(param *map, int x, int y, int size)
 {
     for (int i = 0; i < size; i++) {
-        y --;
-        if (map->tab[y][x] == 'o') {
+        y--;
+        if (map->tab[y][x] != '.') {
             return 1;
         }
     }
@@ -102,12 +102,12 @@ int check_top(param *map, int x, int y, int size)
 
 int algo_diago(param *map, int x, int y, int size)
 {
-    x ++;
-    y ++;
+    x++;
+    y++;
     if (map->tab[y] && map->tab[y][x] && map->tab[y][x] == '.') {
-        if (check_left(map, x, y, size) == 0
-        && check_top(map, x, y, size) == 0) {
-            size ++;
+        if ((check_left(map, x, y, size) == 0)
+        && (check_top(map, x, y, size) == 0)) {
+            size++;
             return algo_diago(map, x, y, size);
         }
     }

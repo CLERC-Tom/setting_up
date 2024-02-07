@@ -26,7 +26,7 @@ int max(param *map, int x, int y, int size)
 
 int parcours_map(param *map)
 {
-    int size;
+    int size = 0;
 
     for (int y = 0; map->tab[y] != NULL; y++) {
         for (int x = 0; map->tab[y][x] != '\0'; x++) {
@@ -39,6 +39,12 @@ int parcours_map(param *map)
 
 void remplace_x(param *map, int x, int y)
 {
+    my_put_nbr(map->ymax);
+    my_putstr("\n");
+    my_put_nbr(map->xmax);
+    my_putstr("\n");
+    my_put_nbr(map->max_carre);
+    my_putstr("\n");
     for (int i = x; i < x + map->max_carre; i++) {
         for (int j = y; j < y + map->max_carre; j++) {
             map->tab[i][j] = 'x';
