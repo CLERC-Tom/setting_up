@@ -12,7 +12,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-static char *my_strchr(const char *str, int c)
+char *my_strchr(const char *str, int c)
 {
     while (*str != '\0') {
         if (*str == c) {
@@ -58,69 +58,14 @@ int init(char **argv, param *struct1)
         return 84;
     }
     fd = read(fd, struct1->buffer, st.st_size);
-    if (fd < 0) {
+    if (fd <= 0) {
+        return 84;
+    }
+    if (fd < st.st_size) {
         return 84;
     }
     close(fd);
     return 0;
-}
-
-static int skip(param *struct1)
-{
-    char *saut = my_strchr(struct1->buffer, '\n');
-
-    if (saut != NULL) {
-        struct1->buffer = saut + 1;
-        return 0;
-    } else {
-        return -1;
-    }
-}
-
-static int my_atoi(const char *str)
-{
-    int result = 0;
-    int sign = 1;
-
-    while (*str == ' ') {
-        str++;
-    }
-    if (*str == '-' || *str == '+') {
-        sign = (*str == '-') ? -1 : 1;
-        str++;
-    }
-    while (*str >= '0' && *str <= '9') {
-        result = result * 10 + (*str - '0');
-        str++;
-    }
-    return sign * result;
-}
-
-static int line_number(char *str, int n)
-{
-    for (int h = 0; str[h] != '\n'; h++) {
-        if (str[h] < '0' || str[h] > '9')
-            return 84;
-    }
-    if (my_atoi(str) != n - 1)
-        return 84;
-    return 0;
-}
-
-static int error(char *str)
-{
-    int n = 0;
-
-    for (int i = 0; str[i] != '\0'; i++) {
-        if (str[i] == '\n') {
-            n++;
-        }
-        if (n >= 1 && str[i] != '.' && str[i] != 'o'
-        && str[i] != '\n') {
-            return 84;
-        }
-    }
-    return line_number(str, n);
 }
 
 int main(int argc, char *argv[])
@@ -134,7 +79,7 @@ int main(int argc, char *argv[])
         return 84;
     }
     struct1 = malloc(sizeof(param));
-    if (init(argv, struct1) == 84 || error(struct1->buffer))
+    if (init(argv, struct1) == 84 || error(struct1->buffer) == 84)
         return 84;
     skip(struct1);
     if (verif_line(struct1) == 84)
