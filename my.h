@@ -39,11 +39,18 @@ void ls_a(void);
 int my_printf(const char *format, ...);
 static int count_verif(const char *p, const char *r);
 int bigger_square(param *map, int i, int j, int size);
-int algo_diago(param *map, int x, int y);
+int algo_diago(param *map, int x, int y, int size);
 int parcours_map(param *map);
 void remplace_x(param *map, int x, int y);
 int count_characters_per_line(param *struct1, int *lil, int num_l);
 int count_lines(char *fileDescriptor);
 int verif_line(param *struct1);
+int skip(param *struct1);
+int my_atoi(const char *str);
+int line_number(char *str, int n);
+int error(char *str);
+char *my_strchr(const char *str, int c);
+int count_lines(char *fileDescriptor);
+int init(char **argv, param *struct1);
 
 #endif /* MY_H */
