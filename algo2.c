@@ -77,13 +77,12 @@ int bigger_square(param *map, int i, int j, int size)
     }
     return 0;
 }
+
 int check_left(param *map, int x, int y, int size)
 {
-    for (int i = 0; i < size; i++)
-    {
+    for (int i = 0; i < size; i++) {
         x --;
-        if (map->tab[y][x] == 'o')
-        {
+        if (map->tab[y][x] == 'o') {
             return 1;
         }
     }
@@ -92,11 +91,9 @@ int check_left(param *map, int x, int y, int size)
 
 int check_top(param *map, int x, int y, int size)
 {
-    for (int i = 0; i < size; i++)
-    {
+    for (int i = 0; i < size; i++) {
         y --;
-        if (map->tab[y][x] == 'o')
-        {
+        if (map->tab[y][x] == 'o') {
             return 1;
         }
     }
@@ -107,29 +104,12 @@ int algo_diago(param *map, int x, int y, int size)
 {
     x ++;
     y ++;
-
     if (map->tab[y] && map->tab[y][x] && map->tab[y][x] == '.') {
-        if (check_left(map, x, y, size) == 0 && check_top(map, x, y, size) == 0) {
+        if (check_left(map, x, y, size) == 0
+        && check_top(map, x, y, size) == 0) {
             size ++;
             return algo_diago(map, x, y, size);
         }
     }
     return size;
-}
-
-void remplace_x(param *map, int x, int y)
-{
-    for (int i = x; i < x + map->max_carre; i++) {
-        for (int j = y; j < y + map->max_carre; j++) {
-            map->tab[i][j] = 'x';
-        }
-    }
-}
-
-void print_map(char **array)
-{
-    for (int i = 0; array[i] != NULL; i++) {
-        my_putstr(array[i]);
-        my_putstr("\n");
-    }
 }

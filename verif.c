@@ -53,4 +53,3 @@ int verif_line(param *struct1)
     }
     return 0;
 }
-
