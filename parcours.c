@@ -14,33 +14,24 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-void parcours_carre(param *map, int i, int j)
+int max(param *map, int x, int y, int size)
 {
-    int tmp;
-
-    if (map->tab[i][j] == '.') {
-        tmp = algo_diago(map, i, j);
-        bigger_square(map, i, j, tmp);
+    size = 0;
+    if(map->tab[y][x] == '.') {
+        size ++;
+        return algo_diago(map, x, y, size);
     }
-}
-
-void parcours_diagonale(param *map, int i)
-{
-    int j = 0;
-
-    while (map->tab[i][j] != '\0') {
-        parcours_carre(map, i, j);
-        j++;
-    }
+    return 0;
 }
 
 int parcours_map(param *map)
 {
-    int i = 1;
-
-    while (map->tab[i] != NULL) {
-        parcours_diagonale(map, i);
-        i++;
+    int size;
+    for (int y = 0; map->tab[y] != NULL; y++) {
+        for(int x = 0; map->tab[y][x] != '\0'; x++) {
+            size = max(map, x, y, size);
+            bigger_square(map, x, y, size);
+        }
     }
     return 0;
 }
