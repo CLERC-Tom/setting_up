@@ -12,6 +12,7 @@ SRC	=   my_putchar.c			\
 		my_strlen.c			\
 		my_strcmp.c 	\
 		my_printf.c			\
+		error.c \
 		algo2.c \
 		parcours.c  \
 		my_strcpy.c \
